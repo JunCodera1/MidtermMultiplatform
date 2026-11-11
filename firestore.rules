@@ -2,22 +2,26 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Mọi tài khoản đã đăng nhập (đăng ký trong app) đều là Admin của hệ thống demo này.
+    // Muốn giới hạn lại cho 1 tài khoản: dùng request.auth.uid == '<UID admin>'.
     function isAdmin() {
-      return request.auth != null
-        && request.auth.uid == 'B5mReMyGsgdx9K5gOyUcgDCt7SW2';
+      return request.auth != null;
     }
 
-    match /users/{userId} {
+    // Collection products: CHỈ gồm 4 trường name, price, soluong, image.
+    match /products/{productId} {
       allow read: if isAdmin();
       allow delete: if isAdmin();
 
       allow create, update: if isAdmin()
-        && request.resource.data.keys().hasOnly([
-          'username', 'email', 'password', 'image'
-        ])
-        && request.resource.data.username is string
-        && request.resource.data.email is string
-        && request.resource.data.password is string
+        && request.resource.data.keys().hasOnly(['name', 'price', 'soluong', 'image'])
+        && request.resource.data.keys().hasAll(['name', 'price', 'soluong', 'image'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.price is number
+        && request.resource.data.price >= 0
+        && request.resource.data.soluong is int
+        && request.resource.data.soluong >= 0
         && request.resource.data.image is string;
     }
   }

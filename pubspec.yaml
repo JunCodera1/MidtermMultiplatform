@@ -1,5 +1,5 @@
 name: user_admin_app
-description: App quản lý người dùng - Bài thi giữa kỳ Lập trình đa nền tảng
+description: App quản lý sản phẩm (phân hệ Admin) - Bài thi giữa kỳ Lập trình đa nền tảng
 
 publish_to: 'none'
 
@@ -16,7 +16,6 @@ dependencies:
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   cloud_firestore: ^5.4.3
-  firebase_storage: ^12.3.3
 
   # Image picker
   image_picker: ^1.1.2
@@ -27,7 +26,7 @@ dependencies:
   # UI utilities
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
-
+  file_picker: ^13.3.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,6 +1,6 @@
 // ============================================================
 // lib/widgets/image_picker_widget.dart
-// Widget chọn và preview ảnh trong form
+// Widget chọn (thư viện / camera) và preview hình sản phẩm trong form
 // ============================================================
 
 import 'package:flutter/material.dart';
@@ -9,8 +9,33 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 
+/// Chọn nguồn ảnh. Trên web chỉ có thư viện; trên di động cho chọn thêm camera.
+Future<ImageSource?> chooseImageSource(BuildContext context) async {
+  if (kIsWeb) return ImageSource.gallery;
+  return showModalBottomSheet<ImageSource>(
+    context: context,
+    builder: (ctx) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.photo_library_outlined),
+            title: const Text('Chọn từ thư viện'),
+            onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_camera_outlined),
+            title: const Text('Chụp ảnh'),
+            onTap: () => Navigator.pop(ctx, ImageSource.camera),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 class ImagePickerWidget extends StatelessWidget {
-  final XFile? selectedImage;     // Ảnh mới được chọn
+  final XFile? selectedImage; // Ảnh mới được chọn
   final String? currentImageUrl; // URL ảnh hiện tại (khi edit)
   final VoidCallback onPickImage;
 
@@ -27,11 +52,10 @@ class ImagePickerWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Ảnh đại diện',
+          'Hình ảnh sản phẩm',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.black87,
           ),
         ),
         const SizedBox(height: 8),
@@ -41,9 +65,9 @@ class ImagePickerWidget extends StatelessWidget {
             width: double.infinity,
             height: 180,
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: Theme.of(context).colorScheme.surfaceContainerHigh,
               border: Border.all(
-                color: Colors.grey.shade300,
+                color: Theme.of(context).colorScheme.outlineVariant,
                 style: BorderStyle.solid,
               ),
               borderRadius: BorderRadius.circular(12),
@@ -53,10 +77,10 @@ class ImagePickerWidget extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          'Nhấn để chọn ảnh từ thiết bị',
+          'Nhấn để chọn hình ảnh',
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey.shade600,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
       ],
@@ -117,14 +141,17 @@ class ImagePickerWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: currentImageUrl!.startsWith('data:image')
                 ? Image.memory(
-                    base64Decode(currentImageUrl!.substring(currentImageUrl!.indexOf(',') + 1)),
+                    base64Decode(currentImageUrl!
+                        .substring(currentImageUrl!.indexOf(',') + 1)),
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stack) => _buildPlaceholder(),
+                    errorBuilder: (context, error, stack) =>
+                        _buildPlaceholder(),
                   )
                 : CachedNetworkImage(
                     imageUrl: currentImageUrl!,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
                     errorWidget: (context, url, error) => _buildPlaceholder(),
                   ),
           ),

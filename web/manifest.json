@@ -1,11 +1,11 @@
 {
-    "name": "user_admin_app",
-    "short_name": "user_admin_app",
+    "name": "Quản lý sản phẩm",
+    "short_name": "Sản phẩm",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Ứng dụng quản lý sản phẩm (phân hệ Admin) - Flutter + Firebase",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

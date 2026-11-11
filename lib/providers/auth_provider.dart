@@ -57,6 +57,35 @@ class AuthProvider extends ChangeNotifier {
     return true;
   }
 
+  /// Đăng ký tài khoản mới
+  Future<bool> register({
+    required String email,
+    required String password,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    final error = await _authService.register(
+      email: email,
+      password: password,
+    );
+
+    _isLoading = false;
+    if (error != null) {
+      _errorMessage = error;
+      notifyListeners();
+      return false;
+    }
+
+    notifyListeners();
+    return true;
+  }
+
+  /// Quên mật khẩu: trả về null nếu đã gửi email, ngược lại trả về lỗi
+  Future<String?> sendPasswordReset(String email) =>
+      _authService.sendPasswordReset(email);
+
   /// Đăng xuất
   Future<void> signOut() async {
     await _authService.signOut();

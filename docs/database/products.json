@@ -1,0 +1,7 @@
+[
+  { "name": "Áo thun cổ tròn", "price": 150000, "soluong": 40, "image": "" },
+  { "name": "Quần jean nam", "price": 399000, "soluong": 25, "image": "" },
+  { "name": "Giày thể thao", "price": 850000, "soluong": 12, "image": "" },
+  { "name": "Balo laptop 15.6 inch", "price": 520000, "soluong": 18, "image": "" },
+  { "name": "Tai nghe Bluetooth", "price": 690000, "soluong": 0, "image": "" }
+]
