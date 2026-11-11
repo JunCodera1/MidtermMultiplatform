@@ -11,3 +11,6 @@ ios/Pods/
 macos/Pods/
 *.iml
 .idea/
+
+# Cấu hình Firebase Android (chứa mã định danh dự án, không đưa lên repo công khai)
+android/app/google-services.json

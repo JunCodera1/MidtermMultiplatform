@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Cần cho Firebase khi chạy bản release (debug/profile đã có sẵn). -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="user_admin_app"
+        android:label="Quản lý sản phẩm"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
